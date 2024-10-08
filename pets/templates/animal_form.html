@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Add/Edit Animal{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>{% if object %}Edit{% else %}Add{% endif %} Animal</h2>
+
+    {% if not request.user.seller.is_subscribed %}
+        <div class="alert alert-warning">
+            <strong>Notice:</strong> You need to subscribe before placing an animal for sale or adoption.
+        </div>
+        <p><a href="https://buy.stripe.com/test_5kA8wI6pnfFYdvG4gg" class="btn btn-primary">Subscribe Now</a></p>
+    {% else %}
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-success">
+                {% if object %}Update{% else %}Add{% endif %}
+            </button>
+        </form>
+    {% endif %}
+
+    <a href="{% url 'animal-list' %}" class="btn btn-secondary mt-3">Back</a>
+</div>
+{% endblock %}

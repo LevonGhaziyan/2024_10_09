@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="username">{{user.username}}</h1>
+    <br \>
+    <!-- <h3>Update Your Profile</h3>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+
+        <button type="submit" class="btn btn-success">Save Changes</button>
+    </form>
+
+    <a href="{% url 'animal-list' %}" class="btn btn-secondary mt-3">Back to Home</a> -->
+
+    <h3 class="wishlist">My Wishlist</h3>
+    {% if wishlist %}
+    <ul>
+        {% for item in wishlist %}
+        <a href="/animal/{{item.animal.id}}">
+            <li><h4>{{item.animal}}</h4></li>
+        </a>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <style>
+        .username,
+        .wishlist {
+            color: white;
+            text-shadow: 0 0 10px black;
+            font-weight: 800;
+        }
+    </style>
+</div>
+{% endblock %}

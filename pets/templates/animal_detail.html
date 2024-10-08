@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+  <h2>{{ animal.breed }}</h2>
+  <img src="{{ animal.picture.url }}" alt="{{ animal.breed }}" class="img-fluid">
+  <p>{{ animal.description }}</p>
+  <p>Age: {{ animal.age }}</p>
+  <p>Sex: {{ animal.sex }}</p>
+  <p>Price: ${{ animal.price }}</p>
+  <p>Seller: {{ animal.seller }}</p>
+  <p>Seller Phone: {{ animal.seller.phone }}</p>
+  <p>Seller Address: {{ animal.seller.address }}</p>
+
+  <div class="btn-group" role="group">
+    <!-- View Details button -->
+    <!-- <a href="{% url 'animal_detail' animal.pk %}" class="btn btn-info">View Details</a> -->
+
+    <!-- Add to Wishlist button -->
+    <form action="{% url 'wishlist-add' animal.pk %}" method="post" class="btn btn-warning">
+      {% csrf_token %}
+      <input type="submit" value="Add to Wishlist">
+    </form>
+    <!-- <a href="{% url 'wishlist-add' animal.pk %}" class="btn btn-warning">Add to Wishlist</a> -->
+
+    <!-- Delete button (only for owners or admin users) -->
+    {% if user.is_authenticated and user == animal.owner or user.is_staff %}
+    <a href="{% url 'animal_delete' animal.pk %}" class="btn btn-danger"
+      onclick="return confirm('Are you sure you want to delete this animal? This action cannot be undone.');">
+      Delete Animal
+    </a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
